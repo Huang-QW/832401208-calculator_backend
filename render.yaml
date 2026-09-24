@@ -1,0 +1,22 @@
+# Render 部署蓝图（Infrastructure as Code）
+#
+# 在 Render 控制台选择 New -> Blueprint，关联本仓库后会自动按下面的配置创建服务。
+# 也可以不用这个文件，改成手动 New -> Web Service，填同样的值即可。
+
+services:
+  - type: web
+    name: calculator-backend
+    runtime: node
+    plan: free
+    region: singapore
+    branch: main
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      # node:sqlite 是 Node 24 起才自带且无需实验标志的模块，必须锁定版本
+      - key: NODE_VERSION
+        value: "24"
+      # 生产环境变量，代码里会读取（不设置则默认 3000）
+      - key: NODE_ENV
+        value: production

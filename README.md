@@ -370,16 +370,27 @@ BASE_URL=http://localhost:8080/api node scripts/acceptance-check.js
 ## 十二、与前端对接说明
 
 1. 先启动本后端，确认 `http://localhost:3000/api/health` 能正常返回；
-2. 打开前端工程 `calculator_frontend`，修改 `src/js/config.js`：
+2. 打开前端工程 `calculator_frontend`，按需修改 `src/js/config.js`：
 
    ```js
-   const DEFAULT_API_BASE = 'http://localhost:3000/api';  // 改成你的后端地址
+   // 本地开发用的后端地址
+   const LOCAL_API_BASE = 'http://127.0.0.1:3000/api';
+
+   // 线上部署后的后端地址（换成你自己的服务地址）
+   const PROD_API_BASE = 'https://calculator-backend-arto.onrender.com/api';
    ```
 
+   页面会根据当前访问的域名自动在两者之间切换，
+   所以同一份前端代码在本地和线上都能直接用，不需要改代码。
+
 3. 启动前端后，页面右上角会显示「后端已连接」；
-4. 若显示「后端未连接」，请检查后端是否启动、端口是否一致、是否被防火墙拦截。
+4. 若显示「后端未连接」，请检查后端是否启动、端口/域名是否一致、是否被防火墙拦截。
 
 后端已开启 CORS（`Access-Control-Allow-Origin: *`），因此前端部署在任何域名或端口都能访问。
+
+> **注意**：本项目后端已部署在 Render 免费实例上，
+> 15 分钟无访问会休眠，冷启动需要 30~60 秒。
+> 如果前端一开始显示「后端未连接」，等一会儿刷新即可。
 
 ---
 
